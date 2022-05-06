@@ -3,6 +3,7 @@ import email
 from unicodedata import digit
 from django.db import models
 from django.contrib.auth.models import User
+from matplotlib import image
 from numpy import product
 
 class Customer(models.Model):
@@ -17,9 +18,16 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price= models.FloatField()
     digital =models.BooleanField(default=False,null=True,blank=False)
+    image = models.ImageField(null=True, blank=True)
+    
     
     def __str__(self) :
         return self.name
+    
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
     
 class Order(models.Model):
    Customer=models.ForeignKey(Customer,on_delete=models.SET_NULL, blank=True,null=True)
