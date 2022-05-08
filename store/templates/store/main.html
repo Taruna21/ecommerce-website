@@ -77,15 +77,22 @@
 			  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 			  <button class="btn btn-outline-success" type="submit">Search</button>
 			</form>
+			<nav class="navbar navbar-light bg-light">
+				<div class="container">
+				  <a class="navbar-brand" href="{% url 'cart' %}">
+					<img src="{% static 'images/cart.png' %}" alt="" width="60" height="40">
+				  </a>
+				</div>
+			  </nav>
 			
-			<div class="form-inline my-2 my-lg-0">
+			<!-- <div class="form-inline my-2 my-lg-0">
 				
 				<a href="{% url 'cart' %}">
 				   <img  id="cart-icon" src="{% static 'images/cart.png' %}">
 			   </a>
 			   <p id="cart-total">0</p>
    
-		   </div>
+		   </div> -->
 
 		  </div>
 		</div>
