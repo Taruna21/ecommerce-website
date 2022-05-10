@@ -25,9 +25,12 @@ class Product(models.Model):
         return self.name
     
     @property
-    def image_url(self):
-        if self.image and hasattr(self.image, 'url'):
-            return self.image.url
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url =''
+        return url
     
 class Order(models.Model):
    Customer=models.ForeignKey(Customer,on_delete=models.SET_NULL, blank=True,null=True)
@@ -41,7 +44,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     product=models.ForeignKey(Product,on_delete=models.SET_NULL, blank=True,null=True)
     order=models.ForeignKey(Order,on_delete=models.SET_NULL,blank=True,null=True)
-    quanity=models.IntegerField(default=0,null=True,blank=True)
+    quantity=models.IntegerField(default=0,null=True,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     
     
