@@ -1,10 +1,12 @@
 # Create your views here.
+from django.core.exceptions import ObjectDoesNotExist
 from venv import create
 from django.shortcuts import render
 from matplotlib.style import context
 from pytest import Item
 from .models import *
-from django.core.exceptions import ObjectDoesNotExist
+
+
 
 
 
@@ -17,12 +19,14 @@ def store(request):
 
 def cart(request):
     
-    if request.user.is_authenticated:
+    if  request.user.is_authenticated:
         try:
             customer = request.user.customer
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
             items = order.orderitems_set.all()
-        except ObjectDoesNotExist:
+        
+        
+        except ObjectDoesNotExist :
             items=[]
             order={'get_cart_total':0,  'get_cart_items' :0 }
         
@@ -42,7 +46,8 @@ def checkout(request):
             customer = request.user.customer
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
             items = order.orderitems_set.all()
-        except ObjectDoesNotExist:
+        
+        except ObjectDoesNotExist :
             items=[]
             order={'get_cart_total':0,  'get_cart_items' :0 }
         
