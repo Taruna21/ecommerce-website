@@ -35,28 +35,6 @@
 						</div>
 					</div>
 
-                    <div id="shipping-info">
-						<hr>
-						<p>Shipping Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
-						</div>
-					</div>
-
-
 					<hr>
 					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
 				</form>
@@ -69,6 +47,7 @@
             
 			<div class="box-element hidden" id="payment-info">
 				<small>Paypal Options</small>
+				<button id="make-payment">Make Payment</button>
 			</div>
 			
 		</div>
@@ -92,26 +71,63 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var shipping='{{order.shipping}}'
+		var total = '{{order.get_cart_total|floatformat:2}}'
+
+
+
+		if (shipping =='False'){
+			document.getElementById('shipping-info').innerHTML=''
+		}
+		if (user != 'AnonymousUser'){
+			document.getElementById('user-info').innerHTML=''
+		}
+		if (shipping == 'False' && user != 'AnonymousUser'){
+     	//Hide entire form if user is logged in and shipping is false
+        	document.getElementById('form-wrapper').classList.add("hidden");
+        //Show payment if logged in user wants to buy an item that does not require shipping
+        	document.getElementById ('payment-info').classList.remove ("hidden");
+		}
+
+
+		var form=document.getElementById('form')
+
+		form.addEventListener('submit', function(e){
+   		e.preventDefault()
+   		console.log('Form Submitted...')
+   		document.getElementById(' form-button').classList.add("hidden");
+   		document.getElementById('payment-info').classList.remove("hidden");
+		})	
+	document.getElementById('make-payment').addEventListener('Click',function(e){
+		submitFormData()
+	})
+	function submitFormData(){
+		console.log('Payment Button Clicked')
+		var userFormData={
+			'name':null,
+			'email':null,
+			'total':total,
+		}
+		var shippingInfo={
+			'adress':null,
+			'city':null,
+			'state':null,
+			'zipcode':null,
+			'update':total,
+		}
+		if(shipping!=false){
+			shippingInfo.adress = form.adress.value
+			shippingInfo.city = form.city.value
+			shippingInfo.state = form.state.value
+			shippingInfo.zipcode = form.zipcode.value
+		}
+		if(user=='AnonymousUser'){
+			userFormData.name = form.name.value
+			userFormData.email = form.email.value
+		}
+	}
+	</script>
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {% endblock content %}
