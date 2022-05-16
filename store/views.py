@@ -39,19 +39,12 @@ def cart(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
-        
     else:
         items=[]
         order={'get_cart_total':0,  'get_cart_items' :0, 'shipping':False }
-        
-    
+
     context = {'items' : items, 'order' : order, 'cartItems':cartItems}
     return render(request, 'store/cart.html', context)
-
-
-
-
 
 
 
@@ -98,15 +91,16 @@ def updateItem(request):
 
 def processOrder(request):
     transaction_id=datetime.datetime.now().timestamp()
-    date = json.loads(request.body)
+    data = json.loads(request.body)
 
     if request.user.is_authenticated:
         customer=request.user.customer
         order, created=Order.objects.get_or_create(customer=customer,  complete=False)
         total= float(data['form']['total'])
         order.transaction_id=transaction_id
+
         if total == order.get_cart_total:
-            order.complete=True,
+            order.complete=True
         order.save()
     
         if order.shipping == True:
