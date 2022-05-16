@@ -100,24 +100,24 @@
 		})
 
 		document.getElementById('make-payment').addEventListener('click',function(e){
-		submitFormData();
+		submitFormData()
 	})
-	
+
 	function submitFormData(){
 		console.log('Payment Button Clicked')
-		var userFormData={
+		var userFormData = {
 			'name':null,
 			'email':null,
 			'total':total,
 		}
+
 		var shippingInfo={
 			'address':null,
 			'city':null,
 			'state':null,
 			'zipcode':null,
-			'update':total,
 		}
-		if(shipping!=false){
+		if(shipping!='False'){
 			shippingInfo.address = form.address.value
 			shippingInfo.city = form.city.value
 			shippingInfo.state = form.state.value
@@ -135,18 +135,17 @@
 		    method: 'POST',
    	 		headers:{
          		'Content-Type':'applicaiton/json',
-         		'X-CSRFToken ':csrftoken,
+         		'X-CSRFToken':csrftoken,
     	},
     	body:JSON.stringify({'form' :userFormData, 'shipping':shippingInfo}),
 })
 .then((response) => response.json())
 .then((data) =>{
-      console.Log('Success:', data);
-      alert('Transaction completed');
-      window.location.href="{% url 'store' %}" 
-    })
+      			console.Log('Success:', data);
+      			alert('Transaction completed');
+      			window.location.href="{% url 'store' %}" 
+    		})
 	}
 	</script>
 		
-
 {% endblock content %}
