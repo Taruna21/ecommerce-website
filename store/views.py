@@ -1,9 +1,16 @@
-from django.shortcuts import render
+from email.policy import HTTP
+from http.client import HTTPResponse
+from django.shortcuts import render , HttpResponse
 from django.http import JsonResponse
 import json
 import datetime
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
+
+def search(request):
+	return render(request, 'store/search.html')
+
+
 
 def store(request):
 	data = cartData(request)
